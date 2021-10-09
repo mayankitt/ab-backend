@@ -10,6 +10,8 @@ db = SQLAlchemy(app)
 
 if __name__ == '__main__':
     from controller.user_controller import user_controller
+    from controller.product_controller import product_controller
     app.register_blueprint(user_controller)
+    app.register_blueprint(product_controller)
     app.run('0.0.0.0')
 

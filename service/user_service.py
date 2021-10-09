@@ -13,7 +13,6 @@ def create_user(user: User) -> bool:
         db.session.rollback()
         print(ex)
         return False
-    return False
 
 
 def get_user(email_id: str) -> User:

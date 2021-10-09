@@ -4,7 +4,7 @@ from functools import wraps
 
 # decorator for verifying the JWT
 import jwt
-from flask import request, jsonify
+from flask import request, jsonify, make_response
 from jwt import DecodeError
 
 from main import app
@@ -19,7 +19,7 @@ def token_required(f):
             token = request.headers['Authorization'].split(' ')[1]
         # return 401 if token is not passed
         if not token:
-            return jsonify({'message': 'Token is missing !!'}), 401
+            return make_response(jsonify({'message': 'Token is missing !!'}), 401)
 
         try:
             # decoding the payload to fetch the stored details
@@ -27,9 +27,9 @@ def token_required(f):
             if int(data['expiration']) < int(datetime.utcnow().timestamp()):
                 raise DecodeError
         except DecodeError as ex:
-            return jsonify({
+            return make_response(jsonify({
                 'message': 'Token is invalid or expired !!'
-            }), 401
+            }), 401)
         return f(*args, **kwargs)
 
     return decorated
