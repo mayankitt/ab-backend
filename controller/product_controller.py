@@ -2,7 +2,8 @@ from flask import Blueprint, jsonify, request, make_response
 
 from controller import token_required
 from model.product import Product
-from service.product_service import get_products, create_product, get_product, get_products_by_category, delete_product
+from service.product_service import get_products, create_product, get_product, get_products_by_category, delete_product, \
+    update_product
 
 product_controller = Blueprint('product', __name__, url_prefix='/api/product')
 
@@ -85,5 +86,28 @@ def delete_product_by_product_id():
         return make_response(
             jsonify({
                 'message': 'Product could not be deleted from system'
+            }), 500
+        )
+
+
+@product_controller.route('/update', methods=['PUT'])
+@token_required
+def update_product_by_id():
+    request_body: dict = request.get_json()
+    product_id = request_body['id']
+    name = request_body['name'] if 'name' in request_body.keys() else None
+    description = request_body['description'] if 'description' in request_body.keys() else None
+    category = request_body['category'] if 'category' in request_body.keys() else None
+    units = request_body['units'] if 'units' in request_body.keys() else None
+    if update_product(product_id, name, description, category, units):
+        return make_response(
+            jsonify({
+                'message': 'Product updated'
+            }), 201
+        )
+    else:
+        return make_response(
+            jsonify({
+                'message': 'Product could not be updated'
             }), 500
         )

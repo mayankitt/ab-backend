@@ -48,3 +48,21 @@ def delete_product(product_id: str):
             print(ex)
             db.session.rollback()
             return False
+
+
+def update_product(product_id, name=None, description=None, category=None, units=None) -> bool:
+    product = db.session.query(Product).filter(Product.product_id == product_id).one()
+    if product is None:
+        return False
+    else:
+        product.name = name if name is not None else product.product_name
+        product.product_description = description if description is not None else product.product_description
+        product.product_category = category if category is not None else product.product_category
+        product.units = units if units is not None else product.units
+        try:
+            db.session.commit()
+            return True
+        except:
+            db.session.rollback()
+            return False
+
