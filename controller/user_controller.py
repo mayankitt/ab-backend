@@ -57,13 +57,15 @@ def authenticate_user():
             not check_password_hash(user_being_authenticated.password_hash, supplied_credentials['password']):
         return jsonify(error_response)
     else:
+        token_expiration = (datetime.datetime.utcnow() + datetime.timedelta(hours=2)).timestamp()
         token = jwt.encode({
             'user_email': user_being_authenticated.email_id,
             'generated_on': datetime.datetime.utcnow().timestamp(),
-            'expiration': (datetime.datetime.utcnow() + datetime.timedelta(hours=2)).timestamp()
+            'expiration': token_expiration
         }, app.config['SECRET_JWT_KEY'])
         return jsonify({
             'message': 'User authenticated. Please pass this token for authorization in all subsequent requests.',
-            'token': token
+            'token': token,
+            'expiry': token_expiration
         })
 
