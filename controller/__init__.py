@@ -16,7 +16,8 @@ def token_required(f):
         token = None
         # jwt is passed in the request header
         if 'Authorization' in request.headers:
-            token = request.headers['Authorization'].split(' ')[1]
+            token = request.headers['Authorization'].split(' ')[1]\
+                if request.headers['Authorization'].startswith('Bearer') else request.headers['Authorization']
         # return 401 if token is not passed
         if not token:
             return make_response(jsonify({'message': 'Token is missing !!'}), 401)
