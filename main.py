@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -7,6 +8,7 @@ app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_JWT_KEY'] = 'my-secret-key'
 db = SQLAlchemy(app)
+CORS(app)
 
 if __name__ == '__main__':
     from controller.user_controller import user_controller
