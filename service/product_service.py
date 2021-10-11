@@ -66,3 +66,76 @@ def update_product(product_id, name=None, description=None, category=None, units
             db.session.rollback()
             return False
 
+
+def validate_product_id(provided_id: str, required=True) -> list:
+    error_messages: list = []
+    if required and (provided_id is None or len(provided_id) == 0):
+        error_messages.append('Product ID cannot be empty.')
+    elif provided_id is None:
+        return error_messages
+    return error_messages
+
+
+def validate_product_name(provided_name: str, required=False) -> list:
+    error_messages: list = []
+    if required and (provided_name is None or len(provided_name) == 0):
+        error_messages.append('Product Name cannot be empty.')
+        return error_messages
+    elif provided_name in None:
+        return error_messages
+    if len(provided_name) == 0:
+        error_messages.append('Product Name can\'t be an empty string')
+    if len(provided_name) > 50:
+        error_messages.append('Name of the product cannot exceed 50 characters.')
+    if string_contains_special_characters(provided_name):
+        error_messages.append('Name of the product cannot contain special characters.')
+    return error_messages
+
+
+def validate_product_description(provided_description: str, required=False) -> list:
+    error_messages: list = []
+    if required and (provided_description is None or len(provided_description) == 0):
+        error_messages.append('Product Category cannot be empty.')
+        return error_messages
+    elif provided_description is None:
+        return error_messages
+    if len(provided_description) > 200:
+        error_messages.append('Description of the product cannot exceed 200 characters.')
+    if string_contains_special_characters(provided_description):
+        error_messages.append('Description of the product cannot contain special characters.')
+    return error_messages
+
+
+def validate_category(provided_category: str, required=False) -> list:
+    error_messages: list = []
+    if required and (provided_category is None or len(provided_category) == 0):
+        error_messages.append('Product Category cannot be empty.')
+        return error_messages
+    elif provided_category is None:
+        return error_messages
+    categories: list = [
+        'SPACE',
+        'HELICOPTER',
+        'COMMERCIAL'
+    ]
+    if provided_category not in categories:
+        error_messages.append(
+            'Value \'%s\' for category not valid. Possible values: %s', (provided_category, categories))
+    return error_messages
+
+
+def validate_units(provided_units: int, required=False) -> list:
+    error_list: list = []
+    if required and provided_units is None:
+        error_list.append('Product Units cannot be empty.')
+        return error_list
+    elif provided_units is None:
+        return  error_list
+    if provided_units < 0:
+        error_list.append('Product units value cannot be less than 0')
+
+
+def string_contains_special_characters(string: str) -> bool:
+    import re
+    regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+    return True if regex.search(string) else False
