@@ -161,15 +161,14 @@ def update_product_by_id():
     bad_request_errors.extend(validate_units(units))
 
     if len(bad_request_errors) > 0:
-        return make_response({
+        return make_response(
             jsonify({
                 'message': 'Bad Request. Cannot update product.',
                 'data': {},
                 'hasErrors': True,
                 'errors': bad_request_errors
             }), 400
-        })
-
+        )
     if update_product(product_id, name, description, category, units):
         return make_response(
             jsonify({
