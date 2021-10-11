@@ -120,7 +120,7 @@ def validate_category(provided_category: str, required=False) -> list:
     ]
     if provided_category not in categories:
         error_messages.append(
-            'Value \'%s\' for category not valid. Possible values: %s', (provided_category, categories))
+            'Value \'%s\' for category not valid. Possible values: %s'%(provided_category, categories))
     return error_messages
 
 
