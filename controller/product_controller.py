@@ -156,7 +156,8 @@ def update_product_by_id():
     description = request_body.get('description')
     bad_request_errors.extend(validate_product_description(description))
     category = str(request_body['category']).upper() if 'category' in request_body.keys() else None
-    bad_request_errors.extend(validate_category(category))
+    if not (category is None or category == 'NONE'):
+        bad_request_errors.extend(validate_category(category))
     units = request_body['units'] if 'units' in request_body.keys() else None
     bad_request_errors.extend(validate_units(units))
 
