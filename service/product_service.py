@@ -81,7 +81,7 @@ def validate_product_name(provided_name: str, required=False) -> list:
     if required and (provided_name is None or len(provided_name) == 0):
         error_messages.append('Product Name cannot be empty.')
         return error_messages
-    elif provided_name in None:
+    elif provided_name is None:
         return error_messages
     if len(provided_name) == 0:
         error_messages.append('Product Name can\'t be an empty string')
