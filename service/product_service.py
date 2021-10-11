@@ -130,9 +130,10 @@ def validate_units(provided_units: int, required=False) -> list:
         error_list.append('Product Units cannot be empty.')
         return error_list
     elif provided_units is None:
-        return  error_list
+        return error_list
     if provided_units < 0:
         error_list.append('Product units value cannot be less than 0')
+    return error_list
 
 
 def string_contains_special_characters(string: str) -> bool:
