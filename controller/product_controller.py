@@ -34,7 +34,7 @@ def create_new_product():
     product.product_description = product_details.get('description')
     product.product_category = str(product_details['category']).upper() if product_details.get('category') else None
     product.units = product_details.get('units')
-    bad_request_errors: list
+    bad_request_errors: list = list()
     bad_request_errors.extend(validate_product_name(product.product_name, True))
     bad_request_errors.extend(validate_product_description(product.product_description, True))
     bad_request_errors.extend(validate_category(product.product_category, True))
