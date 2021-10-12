@@ -38,7 +38,7 @@ def create_new_product():
     bad_request_errors.extend(validate_product_name(product.product_name, True))
     bad_request_errors.extend(validate_product_description(product.product_description, True))
     bad_request_errors.extend(validate_category(product.product_category, True))
-    bad_request_errors.extend(validate_units(product.product_units, True))
+    bad_request_errors.extend(validate_units(product.units, True))
     if len(bad_request_errors) > 0:
         return make_response({
             jsonify({
